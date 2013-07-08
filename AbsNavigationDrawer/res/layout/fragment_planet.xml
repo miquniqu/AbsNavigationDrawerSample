@@ -13,11 +13,22 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/image"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:gravity="center"
-    android:padding="32dp" />
+    >
+	<ImageView
+	    android:id="@+id/image"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:background="#000000"
+	    android:gravity="center"
+	    android:padding="32dp"
+	    android:contentDescription="@string/description_image" />
+	<Button
+		android:id="@+id/drawer_button"
+		android:layout_width="wrap_content"
+		android:layout_height="40dip"
+		android:visibility="gone"
+		android:text="@string/button_drawer" />	
+</FrameLayout>

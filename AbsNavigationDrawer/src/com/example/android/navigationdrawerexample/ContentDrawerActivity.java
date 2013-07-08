@@ -20,8 +20,8 @@ import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.custom.app.ActionBarVerticalDrawerToggle;
-import com.actionbarsherlock.custom.widget.VerticalDrawerLayout;
+import com.actionbarsherlock.custom.app.ActionBarContentDrawerToggle;
+import com.actionbarsherlock.custom.widget.ContentDrawerLayout;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -37,14 +37,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class BottomDrawerActivity extends SherlockFragmentActivity {
-    private VerticalDrawerLayout mVerticalDrawerLayout;
+public class ContentDrawerActivity extends SherlockFragmentActivity{
+    private ContentDrawerLayout mContentDrawerLayout;
     private ListView mDrawerList;
-    private ActionBarVerticalDrawerToggle mVerticalDrawerToggle;
+    private ActionBarContentDrawerToggle mContentDrawerToggle;
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -54,15 +55,15 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_bottom_drawer);
+        setContentView(R.layout.activity_content_drawer);
 
         mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-        mVerticalDrawerLayout = (VerticalDrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.bottom_drawer);
+        mContentDrawerLayout = (ContentDrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.content_drawer);
 
         // set a custom shadow that overlays the main content when the drawer opens
-        mVerticalDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
+        mContentDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
         		android.R.layout.simple_list_item_1, mPlanetTitles));
@@ -74,10 +75,10 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
-        mVerticalDrawerToggle = new ActionBarVerticalDrawerToggle(
+        mContentDrawerToggle = new ActionBarContentDrawerToggle(
                 this,                  /* host Activity */
                 getSupportActionBar(),        /* ActionBar of the hosting Activity */
-                mVerticalDrawerLayout,  /* DrawerLayout object */
+                mContentDrawerLayout,  /* DrawerLayout object */
                 R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
@@ -92,8 +93,8 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
                 supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-        mVerticalDrawerToggle.setGravity(Gravity.BOTTOM);
-        mVerticalDrawerLayout.setDrawerListener(mVerticalDrawerToggle);
+        mContentDrawerToggle.setGravity(Gravity.RIGHT);
+        mContentDrawerLayout.setDrawerListener(mContentDrawerToggle);
 
         if (savedInstanceState == null) {
             selectItem(0);
@@ -111,18 +112,13 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mVerticalDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpen = mContentDrawerLayout.isDrawerOpen(mDrawerList);
         menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         // The action bar home/up action should open or close the drawer.
-         // ActionBarDrawerToggle will take care of this.
-        if (mVerticalDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
         // Handle action buttons
         switch(item.getItemId()) {
         case R.id.action_websearch:
@@ -151,7 +147,7 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        SherlockFragment fragment = new PlanetFragment();
+    	SherlockFragment fragment = new PlanetFragment();
         Bundle args = new Bundle();
         args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
         fragment.setArguments(args);
@@ -162,7 +158,7 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(mPlanetTitles[position]);
-        mVerticalDrawerLayout.closeDrawer(mDrawerList);
+        mContentDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
@@ -180,21 +176,27 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mVerticalDrawerToggle.syncState();
+        mContentDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-        mVerticalDrawerToggle.onConfigurationChanged(newConfig);
+        mContentDrawerToggle.onConfigurationChanged(newConfig);
     }
+    
+    public void onToggleDrawerClicked() {  
+    	mContentDrawerToggle.toggleDrawer();
+    }  
 
     /**
      * Fragment that appears in the "content_frame", shows a planet
      */
-    public static class PlanetFragment extends SherlockFragment {
+    public static class PlanetFragment extends SherlockFragment implements View.OnClickListener{
         public static final String ARG_PLANET_NUMBER = "planet_number";
+
+        private Button mDrawerButton;
 
         public PlanetFragment() {
             // Empty constructor required for fragment subclasses
@@ -211,7 +213,24 @@ public class BottomDrawerActivity extends SherlockFragmentActivity {
                             "drawable", getActivity().getPackageName());
             ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
             getActivity().setTitle(planet);
+            
+            mDrawerButton = (Button) rootView.findViewById(R.id.drawer_button);
+            mDrawerButton.setVisibility(View.VISIBLE);
+            mDrawerButton.setOnClickListener(this);
+            
             return rootView;
         }
-    }
+
+    	@Override
+    	public void onClick(View v) {
+    		if (v == mDrawerButton) {
+    			try {  
+    				ContentDrawerActivity activity = (ContentDrawerActivity) getActivity();  
+                    activity.onToggleDrawerClicked();
+                } catch (ClassCastException e) {  
+                    throw new ClassCastException("activity が ContentDrawerActivityじゃない");  
+                }  
+    		}
+    	}
+   }
 }

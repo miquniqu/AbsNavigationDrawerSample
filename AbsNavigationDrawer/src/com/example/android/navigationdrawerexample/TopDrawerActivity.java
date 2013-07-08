@@ -65,7 +65,7 @@ public class TopDrawerActivity extends SherlockFragmentActivity {
         mVerticalDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.TOP);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
+        		android.R.layout.simple_list_item_1, mPlanetTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer

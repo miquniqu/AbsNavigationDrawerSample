@@ -64,6 +64,13 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock">
         </activity>
-    </application>
+        
+        <activity
+            android:name=".ContentDrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock">
+        </activity>
+        
+	</application>
 
 </manifest>

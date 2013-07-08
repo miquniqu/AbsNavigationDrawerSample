@@ -16,7 +16,7 @@
 
 
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
-<android.support.v4.widget.DrawerLayout
+<com.actionbarsherlock.custom.widget.ContentDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -36,12 +36,12 @@
          the container. A solid background is used for contrast
          with the content view. -->
     <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:id="@+id/content_drawer"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="right"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:background="#111"/>
-</android.support.v4.widget.DrawerLayout>
+</com.actionbarsherlock.custom.widget.ContentDrawerLayout>

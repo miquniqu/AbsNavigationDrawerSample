@@ -35,13 +35,15 @@ public class MainActivity extends SherlockListActivity  {
 	    String menuTitle = mMenuTitles[position];
 	    
 	    Intent intent;
-	    if (menuTitle.equals("Left")){
+	    if (menuTitle.equals("ContentDrawer")){
+			intent = new Intent(getApplicationContext(), ContentDrawerActivity.class);
+	    }else if (menuTitle.equals("Horizon Left")){
 			intent = new Intent(getApplicationContext(), LeftDrawerActivity.class);
-	    }else if (menuTitle.equals("Right")){
+	    }else if (menuTitle.equals("Horizon Right")){
 			intent = new Intent(getApplicationContext(), RightDrawerActivity.class);
-	    }else if (menuTitle.equals("Top")){
+	    }else if (menuTitle.equals("Vertical Top")){
 			intent = new Intent(getApplicationContext(), TopDrawerActivity.class);
-	    }else if (menuTitle.equals("Bottom")){
+	    }else if (menuTitle.equals("Vertical Bottom")){
 			intent = new Intent(getApplicationContext(), BottomDrawerActivity.class);
 	    }else{
 	    	intent = new Intent(getApplicationContext(), DrawerActivity.class);

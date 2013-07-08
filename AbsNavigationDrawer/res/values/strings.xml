@@ -28,13 +28,18 @@
     </string-array>
     <string-array name="menu_array">
         <item>Default</item>
-        <item>Left</item>
-        <item>Right</item>
-        <item>Top</item>
-        <item>Bottom</item>
-    </string-array>
+        <item>Horizon Left</item>
+        <item>Horizon Right</item>
+        <item>Vertical Top</item>
+        <item>Vertical Bottom</item>
+        <item>ContentDrawer</item>
+        </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    
+    <string name="button_drawer">Open Drawer</string>
+    <string name="description_image">Plante Image</string>
+    
 </resources>
